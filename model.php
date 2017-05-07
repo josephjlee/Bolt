@@ -9,40 +9,56 @@
 class Model {
     function __construct() {
         include_once "definations.php";
-        // Create connection
-        $this->conn = new mysqli(SERVERNAME, USERNAME, PASSWORD, DBNAME);
-        // Check connection
-        if ($this->conn->connect_error) {
-            //die("Connection failed: " . $conn->connect_error);
-            $data = array("resp" => "failed", "error" => $this->conn->connect_error);
+        if (USEPDO == "YES") {
+            try {
+                $this->conn = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);
+                // set the PDO error mode to exception
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                exit;
+            }
         }
     }
 
     function __destruct() {
-        $this->conn->close();
+        if (USEPDO == "YES") {
+            include_once "definations.php";
+            $this->conn = null;
+        }
     }
 
     function dataretrieve($sql) {
-        $result = $this->conn->query($sql);
+        $arr = array();
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
 
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
-                $result[] = $row;
+            $a = array();
+            // set the resulting array to associative
+            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                $a[] = $stmt->fetchAll();
             }
-            $arr["result"] = count($result);
-            $arr["data"] = $result;
-        } else {
-            $arr["result"] = 0;
+            $arr["result"] = "success";
+            $arr["data"] = $a;
+        } catch (PDOException $e) {
+            $arr["result"] = "failed";
+            $arr["message"] = $e->getMessage();
         }
         return $arr;
     }
 
     function runquery($sql) {
-        if ($this->conn->query($sql) === TRUE) {
+        $arr = array();
+        try {
+            // use exec() because no results are returned
+            $this->conn->exec($sql);
             $arr["result"] = "success";
-        } else {
+        } catch (PDOException $e) {
             $arr["result"] = "failed";
+            $arr["message"] = $e->getMessage();
         }
         return $arr;
     }
