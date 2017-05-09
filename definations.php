@@ -85,12 +85,14 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     define("USERNAME", "localusername");
     define("PASSWORD", "localpassword");
     define("DBNAME", "localserverdb");
+    define("SQLITEDBNAME", "localsqlitedb.sqlite");
 } else {
     //WHEN RUNNING ON SERVER
     define("SERVERNAME", "localhost");
     define("USERNAME", "productionusername");
     define("PASSWORD", "productionpassword");
     define("DBNAME", "productionserverdb");
+    define("SQLITEDBNAME", "productionserversqlitedb.sqlite");
 }
 
 
@@ -104,7 +106,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 }
 
 define("USEPDOMYSQL", "NO");
-define("USEPDOSQLITE", "NO");
+define("USEPDOSQLITE", "YES");
 
 //Enable Pagenot Found
 define("PAGENOTFOUNDREDIRECT", "YES"); //SET LINK NAME IN index.php on line no
