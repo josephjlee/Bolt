@@ -22,7 +22,7 @@ class Model {
 
         if(USEPDOSQLITE == "YES"){
             try{
-                $this->sqlite = new PDO('sqlite:dogsDb_PDO.sqlite');
+                $this->sqlite = new PDO('sqlite:'.SQLITEDBNAME);
             }catch(PDOException $e){
                 echo $e->getMessage();
                 exit;
@@ -40,7 +40,7 @@ class Model {
         }
     }
 
-    function dataretrieve($sql) {
+    function retrievemysql($sql) {
         $arr = array();
         try {
             $stmt = $this->mysql->prepare($sql);
@@ -62,12 +62,47 @@ class Model {
         return $arr;
     }
 
-    function runquery($sql) {
+    function runquerymysql($sql) {
         $arr = array();
         try {
             // use exec() because no results are returned
             $this->mysql->exec($sql);
             $arr["result"] = "success";
+        } catch (PDOException $e) {
+            $arr["result"] = "failed";
+            $arr["message"] = $e->getMessage();
+        }
+        return $arr;
+    }
+
+    function runquerysqlite($sql) {
+        $arr = array();
+        try {
+            // use exec() because no results are returned
+            $this->sqlite->exec($sql);
+            $arr["result"] = "success";
+        } catch (PDOException $e) {
+            $arr["result"] = "failed";
+            $arr["message"] = $e->getMessage();
+        }
+        return $arr;
+    }
+
+    function retrievesqlite($sql) {
+        $arr = array();
+        try {
+            $stmt = $this->sqlite->prepare($sql);
+            $stmt->execute();
+
+            $a = array();
+            // set the resulting array to associative
+            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                $a[] = $stmt->fetchAll();
+            }
+            $arr["result"] = "success";
+            $arr["data"] = $a;
         } catch (PDOException $e) {
             $arr["result"] = "failed";
             $arr["message"] = $e->getMessage();
