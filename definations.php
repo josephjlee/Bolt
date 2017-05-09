@@ -103,7 +103,8 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     define("ROOT", "/");
 }
 
-define("USEPDO", "NO");
+define("USEPDOMYSQL", "NO");
+define("USEPDOSQLITE", "NO");
 
 //Enable Pagenot Found
 define("PAGENOTFOUNDREDIRECT", "YES"); //SET LINK NAME IN index.php on line no
