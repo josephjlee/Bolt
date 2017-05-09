@@ -9,12 +9,21 @@
 class Model {
     function __construct() {
         include_once "definations.php";
-        if (USEPDO == "YES") {
+        if (USEPDOMYSQL == "YES") {
             try {
-                $this->conn = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);
+                $this->mysql = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);
                 // set the PDO error mode to exception
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
+                echo $e->getMessage();
+                exit;
+            }
+        }
+
+        if(USEPDOSQLITE == "YES"){
+            try{
+                $this->sqlite = new PDO('sqlite:dogsDb_PDO.sqlite');
+            }catch(PDOException $e){
                 echo $e->getMessage();
                 exit;
             }
@@ -22,16 +31,19 @@ class Model {
     }
 
     function __destruct() {
-        if (USEPDO == "YES") {
-            include_once "definations.php";
-            $this->conn = null;
+        include_once "definations.php";
+        if (USEPDOMYSQL == "YES") {
+            $this->mysql = null;
+        }
+        if(USEPDOSQLITE == "YES"){
+            $this->sqlite = null;
         }
     }
 
     function dataretrieve($sql) {
         $arr = array();
         try {
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             $stmt->execute();
 
             $a = array();
@@ -54,7 +66,7 @@ class Model {
         $arr = array();
         try {
             // use exec() because no results are returned
-            $this->conn->exec($sql);
+            $this->mysql->exec($sql);
             $arr["result"] = "success";
         } catch (PDOException $e) {
             $arr["result"] = "failed";
