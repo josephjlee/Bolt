@@ -5,7 +5,7 @@
 2. Change the .htaccess file's "RewriteRule ^(.*)$ /ourserverspath/index.php?path=$1 [NC,L,QSA]", Set ourserverspath to the projects directory path.
 3. Similarly change defination.php's "define("ROOT", "/localhost/ourlocalserverspath/")", Set ourlocalserverspath to projects path.
 
-<b>If you plan to access database</b>
+<b>If you plan to access database</b><br>
 4. Define all the database information like servername, username, databasename and password in the defination.php file.
 
 <b>Now we are ready to run our first program.</b>
