@@ -8,6 +8,7 @@
 include_once "routes.php";
 include_once "user_controllers.php";
 
+$output = "";
 $newrouter = new router();
 $controller = new UserControllers();
 
@@ -59,6 +60,10 @@ if (isset($output)) {
     echo $output;
 }
 
+//Compressing html output
+$output = ob_html_compress($output);
+
+
 $finaloutput = trim(ob_get_clean());
 
 if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT == "YES") {
@@ -69,4 +74,8 @@ if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT 
     } else {
         echo $finaloutput;
     }
+}
+
+function ob_html_compress($buf){
+    return str_replace(array("\n","\r","\t"),'',$buf);
 }
