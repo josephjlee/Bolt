@@ -99,7 +99,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 //SET Root location of project
 if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     //WHEN RUNNING ON LOCALHOST
-    define("ROOT", "/localhost/Bolt/");
+    define("ROOT", "/localhost/bolt/");
 } else {
     //WHEN RUNNING ON SERVER
     define("ROOT", "/");
@@ -110,3 +110,6 @@ define("USEPDOSQLITE", "NO");
 
 //Enable Pagenot Found
 define("PAGENOTFOUNDREDIRECT", "YES"); //SET LINK NAME IN index.php on line no
+
+//Enable HTML Compression
+define("HTMLCOMPRESSION", "YES");

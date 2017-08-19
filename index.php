@@ -60,11 +60,14 @@ if (isset($output)) {
     echo $output;
 }
 
-//Compressing html output
-$output = ob_html_compress($output);
-
 
 $finaloutput = trim(ob_get_clean());
+
+//Compressing html output, by removing whitespace, comments etc
+if(HTMLCOMPRESSION == "YES") {
+    $finaloutput = ob_html_compress($finaloutput);
+    $finaloutput = preg_replace( '/<!--(.|\s)*?-->/' , '' , $finaloutput );
+}
 
 if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT == "YES") {
     header('location:http:/' . ROOT . '404error');
