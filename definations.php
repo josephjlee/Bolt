@@ -15,7 +15,9 @@ if (isset($_GET["path"]) && $_GET["path"] != '') {
 //Defining sessions in class
 class Session {
     function __construct() {
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         foreach ($_SESSION as $skey => $svalue) {
             $this->{$skey} = $svalue;
         }
