@@ -6,14 +6,14 @@
  * Time: 8:57 AM
  */
 include_once "controller.php";
-include_once "routes.php";
+include_once "main.php";
 
 if (!isset($_GET["path"])) {
     $_GET["path"] = "";
 }
 
 ob_start();
-$output = loader();
+$output = loader($run);
 
 if (isset($output)) {
     echo $output;
@@ -42,9 +42,8 @@ function ob_html_compress($buf){
     return str_replace(array("\n","\r","\t"),'',$buf);
 }
 
-function loader() {
+function loader($newrouter) {
     $output = "";
-    $newrouter = new router();
     $presenturlcount = count(explode('/', $_GET["path"]));
     foreach ($newrouter->routes as $route) {
         $routerurlcount = count(explode('/', $route[0]));
