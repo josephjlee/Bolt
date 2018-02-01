@@ -7,8 +7,6 @@
  */
 
 class IndexController extends Controller {
-
-    //Define all your controllers here
     function __construct() {
         parent::__construct();
         $this->GetHtmlFileContents('./index.html');
