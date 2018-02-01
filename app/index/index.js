@@ -1,1 +1,1 @@
-document.getElementById('home').innerHTML = "Welcome, home.";
+document.getElementById('home').innerHTML = "Welcome to Bolt.";

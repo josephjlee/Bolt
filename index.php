@@ -15,8 +15,8 @@ if (!isset($_GET["path"])) {
 ob_start();
 $output = loader($run);
 
-if (isset($output)) {
-    echo $output;
+if (isset($output["html"])) {
+    echo $output["html"];
 }
 
 
@@ -28,7 +28,7 @@ if(HTMLCOMPRESSION == "YES") {
     $finaloutput = preg_replace( '/<!--(.|\s)*?-->/' , '' , $finaloutput );
 }
 
-if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT == "YES") {
+if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT == "YES" && !$output["routed"]) {
     header('location:http:/' . ROOT . '404error');
 } else {
     if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT != "YES") {
@@ -43,7 +43,7 @@ function ob_html_compress($buf){
 }
 
 function loader($newrouter) {
-    $output = "";
+    $output["html"] = "";
     $presenturlcount = count(explode('/', $_GET["path"]));
     foreach ($newrouter->routes as $route) {
         $routerurlcount = count(explode('/', $route[0]));
@@ -55,15 +55,16 @@ function loader($newrouter) {
                         $className = $route[1];
                         $controller = new $className();
                         $controller->{$route[2]}();
-                        $output = $controller->HtmlFileContents;
+                        $output["html"] = $controller->HtmlFileContents;
                         $controllerarray = get_object_vars($controller);
 
                         foreach ($controllerarray as $ckey => $cvar) {
                             if (!is_array($cvar) && !is_object($cvar)) {
-                                $output = str_replace("%" . $ckey . "%", $cvar, $output);
+                                $output["html"] = str_replace("%" . $ckey . "%", $cvar, $output["html"]);
                             }
                         }
                     }
+                    $output["routed"] = true;
                     return $output;
                 }
             } else {
@@ -72,19 +73,21 @@ function loader($newrouter) {
                         $className = $route[1];
                         $controller = new $className();
                         $controller->{$route[2]}();
-                        $output = $controller->HtmlFileContents;
+                        $output["html"] = $controller->HtmlFileContents;
                         $controllerarray = get_object_vars($controller);
 
                         foreach ($controllerarray as $ckey => $cvar) {
                             if (!is_array($cvar) && !is_object($cvar)) {
-                                $output = str_replace("%" . $ckey . "%", $cvar, $output);
+                                $output["html"] = str_replace("%" . $ckey . "%", $cvar, $output["html"]);
                             }
                         }
                     }
+                    $output["routed"] = true;
                     return $output;
                 }
             }
         }
     }
+    $output["routed"] = false;
     return $output;
 }
