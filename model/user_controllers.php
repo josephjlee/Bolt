@@ -6,11 +6,15 @@
  * Time: 8:39 PM
  */
 
-include_once "controller.php";
-
 class UserControllers extends Controller {
 
     //Define all your controllers here
+    function __construct() {
+        parent::__construct();
+    }
 
+
+    function index() {
+    }
 
 }
