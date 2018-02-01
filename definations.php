@@ -114,4 +114,4 @@ define("USEPDOSQLITE", "NO");
 define("PAGENOTFOUNDREDIRECT", "YES"); //SET LINK NAME IN index.php on line no
 
 //Enable HTML Compression
-define("HTMLCOMPRESSION", "YES");
+define("HTMLCOMPRESSION", "NO");

@@ -68,6 +68,7 @@ class Model {
             // use exec() because no results are returned
             $this->mysql->exec($sql);
             $arr["result"] = "success";
+            $arr["lastinsertid"] = $this->mysql->lastInsertId();
         } catch (PDOException $e) {
             $arr["result"] = "failed";
             $arr["message"] = $e->getMessage();
