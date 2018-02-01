@@ -12,6 +12,7 @@ class Controller {
     private $session;
 
     function __construct() {
+        $this->HtmlFileContents = "";
         include_once "definations.php";
         if (isset($urlarray)) {
             $this->urlarray = $urlarray;
@@ -31,14 +32,25 @@ class Controller {
 
     }
 
+    function GetHtmlFileContents($filename) {
+        try{
+            $rc = new ReflectionClass(get_class($this));
+            $this->HtmlFileContents = file_get_contents(dirname($rc->getFileName())."/".$filename);
+        }
+        catch (Exception $e){
+            echo $e;
+            exit;
+        }
+    }
+
     function uploadpicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
         $result = array();
         if (!file_exists($target_dir)) {
             //Create target dir if not exists
-            if(is_writable($target_dir)){
+            if (is_writable($target_dir)) {
                 mkdir($target_dir, 0777, true);
-            }else{
-                $result["err"] = "Error creating directory ".$target_dir;
+            } else {
+                $result["err"] = "Error creating directory " . $target_dir;
                 $result["filename"] = "";
                 return $result;
             }
@@ -86,7 +98,7 @@ class Controller {
             return $result;
         }
 
-        if(is_writable($target_dir)) {
+        if (is_writable($target_dir)) {
             if (move_uploaded_file($this->file->{$filename}["tmp_name"], $target_file)) {
                 $result["err"] = null;
                 $result["filename"] = $target_file;
@@ -96,8 +108,8 @@ class Controller {
                 $result["filename"] = "";
                 return $result;
             }
-        }else{
-            $result["err"] = $target_dir." is not writtable.";
+        } else {
+            $result["err"] = $target_dir . " is not writtable.";
             $result["filename"] = "";
             return $result;
         }

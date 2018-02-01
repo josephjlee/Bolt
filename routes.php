@@ -7,6 +7,10 @@
  * Time: 8:55 AM
  */
 
+/* Define all controllers here */
+include_once "app/index/index.php";
+include_once "app/error/error.php";
+
 //Route will work without controller but view is compulsory
 class router {
     function __construct() {
@@ -15,9 +19,11 @@ class router {
         $this->routes = array();
         //Define all your routes here
         //array_push($this->routes, array(route_name, controllerfunction_name, viewfunction_name, controllerclass_name));
-        array_push($this->routes, array("", "index", "index", "UserControllers"));
+        array_push($this->routes, array("", "IndexController", "index"));
 
-        if(PAGENOTFOUNDREDIRECT == "YES"){ array_push($this->routes, array("404error", "", "error")); }
+        if (PAGENOTFOUNDREDIRECT == "YES") {
+            array_push($this->routes, array("404error", "ErrorController", "error"));
+        }
 
         //End of all routes definitions
         $this->checkduplicate($this->routes);

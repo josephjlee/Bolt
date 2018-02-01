@@ -5,11 +5,8 @@
  * Date: 18/04/17
  * Time: 8:57 AM
  */
-include_once "routes.php";
 include_once "controller.php";
-
-/* Define all controllers here */
-include_once "model/user_controllers.php";
+include_once "routes.php";
 
 if (!isset($_GET["path"])) {
     $_GET["path"] = "";
@@ -55,12 +52,11 @@ function loader() {
             if (substr($route[0], -1) == "*") {
                 $match = "/" . str_replace('/*', '\/(.*)', $route[0]) . "/";
                 if (preg_match($match, $_GET["path"])) {
-                    $output = file_get_contents("Views/" . $route[2] . ".html");
-
-                    if ($route[1] != "") {
-                        $className = $route[3];
+                    if ($route[2] != "") {
+                        $className = $route[1];
                         $controller = new $className();
-                        $controller->{$route[1]}();
+                        $controller->{$route[2]}();
+                        $output = $controller->HtmlFileContents;
                         $controllerarray = get_object_vars($controller);
 
                         foreach ($controllerarray as $ckey => $cvar) {
@@ -69,15 +65,15 @@ function loader() {
                             }
                         }
                     }
+                    return $output;
                 }
             } else {
                 if ($route[0] == $_GET["path"]) {
-                    $output = file_get_contents("Views/" . $route[2] . ".html");
-
-                    if ($route[1] != "") {
-                        $className = $route[3];
+                    if ($route[2] != "") {
+                        $className = $route[1];
                         $controller = new $className();
-                        $controller->{$route[1]}();
+                        $controller->{$route[2]}();
+                        $output = $controller->HtmlFileContents;
                         $controllerarray = get_object_vars($controller);
 
                         foreach ($controllerarray as $ckey => $cvar) {
@@ -86,6 +82,7 @@ function loader() {
                             }
                         }
                     }
+                    return $output;
                 }
             }
         }
