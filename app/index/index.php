@@ -11,10 +11,12 @@ class IndexController extends Controller {
     //Define all your controllers here
     function __construct() {
         parent::__construct();
+        $this->GetHtmlFileContents('./index.html');
+        $this->GetCSSFileContents('./index.css');
+        $this->GetJSFileContents('./index.js');
     }
 
     function index() {
-        $this->GetHtmlFileContents('./index.html');
     }
 
 }

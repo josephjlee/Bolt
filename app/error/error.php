@@ -11,10 +11,10 @@ class ErrorController extends Controller {
     //Define all your controllers here
     function __construct() {
         parent::__construct();
+        $this->GetHtmlFileContents('./error.html');
     }
 
     function error() {
-        $this->GetHtmlFileContents('./error.html');
     }
 
 }

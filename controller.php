@@ -43,6 +43,27 @@ class Controller {
         }
     }
 
+    function GetCSSFileContents($filename){
+        try{
+            $rc = new ReflectionClass(get_class($this));
+            $this->HtmlFileContents = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'>\n</head>", $this->HtmlFileContents);
+        }
+        catch (Exception $e){
+            echo $e;
+            exit;
+        }
+    }
+    function GetJSFileContents($filename){
+        try{
+            $rc = new ReflectionClass(get_class($this));
+            $this->HtmlFileContents = str_replace("</body>", "<script src='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'></script>\n</body>", $this->HtmlFileContents);
+        }
+        catch (Exception $e){
+            echo $e;
+            exit;
+        }
+    }
+
     function uploadpicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
         $result = array();
         if (!file_exists($target_dir)) {
