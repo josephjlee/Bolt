@@ -6,7 +6,7 @@
  * Time: 4:26 PM
  */
 
-class ErrorController extends Controller {
+class ErrorController extends AppController {
     function __construct() {
         parent::__construct();
         $this->GetHtmlFileContents('./error.html');

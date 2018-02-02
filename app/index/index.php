@@ -6,7 +6,7 @@
  * Time: 8:39 PM
  */
 
-class IndexController extends Controller {
+class IndexController extends AppController {
     function __construct() {
         parent::__construct();
         $this->GetHtmlFileContents('./index.html');

@@ -35,7 +35,7 @@ class Controller {
     function GetHtmlFileContents($filename) {
         try{
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents = file_get_contents(dirname($rc->getFileName())."/".$filename);
+            $this->HtmlFileContents .= file_get_contents(dirname($rc->getFileName())."/".$filename);
         }
         catch (Exception $e){
             echo $e;
