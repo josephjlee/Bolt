@@ -29,6 +29,9 @@ class Controller {
         $this->model = new UserModel();
 
         //Some common defaults
+        $this->ROOT = "http:/".ROOT;
+        $this->APP = $this->ROOT."app/";
+        $this->ASSETS = $this->APP."assets/";
 
     }
 
