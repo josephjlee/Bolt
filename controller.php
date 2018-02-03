@@ -14,17 +14,23 @@ class Controller {
     function __construct() {
         $this->HtmlFileContents = "";
         include_once "definations.php";
+
         if (isset($urlarray)) {
             $this->urlarray = $urlarray;
         } else {
             $this->urlarray = array();
         }
+
+        //Session setup
         $this->session = new Session();
+
+        //All the requests setup
         $this->get = new Get();
         $this->post = new Post();
         $this->request = new Request();
         $this->file = new Files();
 
+        //Database setup
         include_once "user_model.php";
         $this->model = new UserModel();
 
@@ -36,6 +42,7 @@ class Controller {
     }
 
     function GetHtmlFileContents($filename) {
+        //Sets HTML code to the string.
         try{
             $rc = new ReflectionClass(get_class($this));
             $this->HtmlFileContents .= file_get_contents(dirname($rc->getFileName())."/".$filename);
@@ -47,6 +54,7 @@ class Controller {
     }
 
     function GetCSSFileContents($filename){
+        //Sets CSS code to the string before the head is closed.
         try{
             $rc = new ReflectionClass(get_class($this));
             $this->HtmlFileContents = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'>\n</head>", $this->HtmlFileContents);
@@ -57,6 +65,7 @@ class Controller {
         }
     }
     function GetJSFileContents($filename){
+        //Sets javascript code to the string before the body is closed.
         try{
             $rc = new ReflectionClass(get_class($this));
             $this->HtmlFileContents = str_replace("</body>", "<script src='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'></script>\n</body>", $this->HtmlFileContents);
@@ -67,7 +76,10 @@ class Controller {
         }
     }
 
-    function uploadpicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
+    function UploadPicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
+        //Uploading picture the $filename is the name of the input tag, $target_dir is the directory where the upload is to be done,
+        //$target_dir directory should be at the root of the project
+        //@return array of err (null if upload success) and filename as the complete path to the uploaded file
         $result = array();
         if (!file_exists($target_dir)) {
             //Create target dir if not exists
