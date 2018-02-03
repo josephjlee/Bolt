@@ -31,7 +31,7 @@ class CoreFunctions {
                 if (substr($route[0], -1) == "*") {
                     //Matching pattern for routing
                     $match = "/" . str_replace('/*', '\/(.*)', $route[0]) . "/";
-                    if (preg_match($match, $_GET["path"])) {
+                    if (preg_match($match, $_GET["path"]) || $route[0] == "*") {
                         //Checking if class name and controller name is defined
                         if ($route[1] != "" && $route[2] != "") {
                             $className = $route[1];

@@ -16,7 +16,7 @@ include_once "app/error/error.php";
 
 //Define all your routes here
 //array_push($routes, array(route_name, controllerclass_name, controllerfunction_name));
-array_push($routes, array("", "IndexController", "index"));
+array_push($routes, array("*", "IndexController", "index"));
 
 
 
