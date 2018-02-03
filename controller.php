@@ -107,42 +107,40 @@ class Controller {
         $this->model = new UserModel();
 
         //Some common defaults
-        $this->ROOT = "http:/".ROOT;
-        $this->APP = $this->ROOT."app/";
-        $this->ASSETS = $this->APP."assets/";
+        $this->ROOT = "http:/" . ROOT;
+        $this->APP = $this->ROOT . "app/";
+        $this->ASSETS = $this->APP . "assets/";
 
     }
 
     function GetHtmlFileContents($filename) {
         //Sets HTML code to the string.
-        try{
+        try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents .= file_get_contents(dirname($rc->getFileName())."/".$filename);
-        }
-        catch (Exception $e){
+            $this->HtmlFileContents .= file_get_contents(dirname($rc->getFileName()) . "/" . $filename);
+        } catch (Exception $e) {
             echo $e;
             exit;
         }
     }
 
-    function GetCSSFileContents($filename){
+    function GetCSSFileContents($filename) {
         //Sets CSS code to the string before the head is closed.
-        try{
+        try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'>\n</head>", $this->HtmlFileContents);
-        }
-        catch (Exception $e){
+            $this->HtmlFileContents = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HtmlFileContents);
+        } catch (Exception $e) {
             echo $e;
             exit;
         }
     }
-    function GetJSFileContents($filename){
+
+    function GetJSFileContents($filename) {
         //Sets javascript code to the string before the body is closed.
-        try{
+        try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents = str_replace("</body>", "<script src='".str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName())."/".$filename)."'></script>\n</body>", $this->HtmlFileContents);
-        }
-        catch (Exception $e){
+            $this->HtmlFileContents = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HtmlFileContents);
+        } catch (Exception $e) {
             echo $e;
             exit;
         }
@@ -150,9 +148,10 @@ class Controller {
 
     function UploadPicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
         //Uploading picture the $filename is the name of the input tag, $target_dir is the directory where the upload is to be done,
-        //$target_dir directory should be at the root of the project
+        //$target_dir directory should be inside app directory
         //@return array of err (null if upload success) and filename as the complete path to the uploaded file
         $result = array();
+        $target_dir = $this->APP . $target_dir;
         if (!file_exists($target_dir)) {
             //Create target dir if not exists
             if (is_writable($target_dir)) {
