@@ -8,7 +8,7 @@
  */
 class Model {
     function __construct() {
-        include_once "definations.php";
+        include_once __DIR__."/../definations.php";
         if (USEPDOMYSQL == "YES") {
             try {
                 $this->mysql = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);

@@ -7,15 +7,15 @@
  * Time: 9:17 AM
  */
 
-include_once "definations.php";
-include_once "core.php";
+include_once __DIR__."/../definations.php";
+include_once __DIR__."/CoreFunctions.php";
 
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
     private $session;
 
     function __construct() {
-        $this->HtmlFileContents = "";
+        $this->HTMLFILECONTENTS = "";
 
         //Takes all the routing varibales in array, return blank if none exists
         if (isset($_GET["path"]) && $_GET["path"] != '') {
@@ -34,14 +34,14 @@ class Controller {
         $this->session = new Session();
 
         //All the requests setup
-        $this->get = new Get();
-        $this->post = new Post();
-        $this->request = new Request();
-        $this->file = new Files();
+        $this->GET = new Get();
+        $this->POST = new Post();
+        $this->REQUEST = new Request();
+        $this->FILE = new Files();
 
         //Database setup
-        include_once "user_model.php";
-        $this->model = new UserModel();
+        include_once __DIR__."/model.php";
+        $this->model = new Model();
 
         //Some common defaults
         $this->ROOT = "http:/" . ROOT;
@@ -54,7 +54,7 @@ class Controller {
         //Sets HTML code to the string.
         try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents .= file_get_contents(dirname($rc->getFileName()) . "/" . $filename);
+            $this->HTMLFILECONTENTS .= file_get_contents(dirname($rc->getFileName()) . "/" . $filename);
         } catch (Exception $e) {
             echo $e;
             exit;
@@ -65,7 +65,7 @@ class Controller {
         //Sets CSS code to the string before the head is closed.
         try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HtmlFileContents);
+            $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
         } catch (Exception $e) {
             echo $e;
             exit;
@@ -76,7 +76,7 @@ class Controller {
         //Sets javascript code to the string before the body is closed.
         try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HtmlFileContents = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HtmlFileContents);
+            $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
         } catch (Exception $e) {
             echo $e;
             exit;
@@ -102,16 +102,16 @@ class Controller {
 
         $target_dir = $target_dir . "/";
 
-        $temp = explode(".", $this->file->{$filename}["name"]);
+        $temp = explode(".", $this->FILE->{$filename}["name"]);
         if ($renamefile == "yes") {
             $target_file = $target_dir . round(microtime(true)) . '.' . end($temp);
         } else {
-            $target_file = $target_dir . basename($this->file->{$filename}["name"]);
+            $target_file = $target_dir . basename($this->FILE->{$filename}["name"]);
         }
         $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
         // Check if image file is a actual image or fake image
-        $check = getimagesize($this->file->{$filename}["tmp_name"]);
+        $check = getimagesize($this->FILE->{$filename}["tmp_name"]);
         if ($check !== false) {
         } else {
             $result["err"] = "File is not an image";
@@ -127,7 +127,7 @@ class Controller {
         }
 
         // Check file size
-        if ($this->file->{$filename}["size"] > $minfilesize) {
+        if ($this->FILE->{$filename}["size"] > $minfilesize) {
             $result["err"] = "File is too large";
             $result["filename"] = "";
             return $result;
@@ -143,7 +143,7 @@ class Controller {
         }
 
         if (is_writable($target_dir)) {
-            if (move_uploaded_file($this->file->{$filename}["tmp_name"], $target_file)) {
+            if (move_uploaded_file($this->FILE->{$filename}["tmp_name"], $target_file)) {
                 $result["err"] = null;
                 $result["filename"] = $target_file;
                 return $result;

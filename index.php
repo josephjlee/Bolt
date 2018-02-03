@@ -5,9 +5,9 @@
  * Date: 18/04/17
  * Time: 8:57 AM
  */
-include_once "controller.php";
+include_once "core/controller.php";
 include_once "definations.php";
-include_once "routes.php";
+include_once "core/router.php";
 include_once "main.php";
 $core = new CoreFunctions();
 
