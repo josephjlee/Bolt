@@ -7,8 +7,8 @@
  * Time: 9:17 AM
  */
 
-include_once __DIR__."/../definations.php";
-include_once __DIR__."/CoreFunctions.php";
+include_once __DIR__ . "/../definations.php";
+include_once __DIR__ . "/CoreFunctions.php";
 
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
@@ -40,7 +40,7 @@ class Controller {
         $this->FILE = new Files();
 
         //Database setup
-        include_once __DIR__."/model.php";
+        include_once __DIR__ . "/model.php";
         $this->model = new Model();
 
         //Some common defaults
@@ -62,10 +62,22 @@ class Controller {
     }
 
     function GetCSSFileContents($filename) {
+        //Check whether head tag is present in the DOM
+        if (strpos($this->HTMLFILECONTENTS, '</head>') === false) {
+            echo "no head tag found.";
+            exit;
+        }
         //Sets CSS code to the string before the head is closed.
         try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
+            if (is_array($filename)) {
+                foreach ($filename as $item) {
+                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $item) . "'>\n</head>", $this->HTMLFILECONTENTS);
+                }
+            } else {
+                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
+            }
+
         } catch (Exception $e) {
             echo $e;
             exit;
@@ -73,10 +85,21 @@ class Controller {
     }
 
     function GetJSFileContents($filename) {
+        //Check whether body tag is present in the DOM
+        if (strpos($this->HTMLFILECONTENTS, '</body>') === false) {
+            echo "no body tag found.";
+            exit;
+        }
         //Sets javascript code to the string before the body is closed.
         try {
             $rc = new ReflectionClass(get_class($this));
-            $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+            if (is_array($filename)) {
+                foreach ($filename as $item) {
+                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $item) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                }
+            } else {
+                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+            }
         } catch (Exception $e) {
             echo $e;
             exit;

@@ -9,9 +9,9 @@
 class IndexController extends AppController {
     function __construct() {
         parent::__construct();
-        $this->GetHtmlFileContents('./index.html');
-        $this->GetCSSFileContents('./index.css');
-        $this->GetJSFileContents('./index.js');
+        $this->GetHtmlFileContents('index.html');
+        $this->GetCSSFileContents('index.css');
+        $this->GetJSFileContents(array('index.js'));
     }
 
     function index() {
