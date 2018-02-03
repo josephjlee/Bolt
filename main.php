@@ -16,20 +16,15 @@ include_once "app/error/error.php";
 
 
 //Define all your routes here
-//array_push($routes, array(route_name, controllerfunction_name, viewfunction_name, controllerclass_name));
+//array_push($routes, array(route_name, controllerclass_name, controllerfunction_name ));
 array_push($routes, array("", "IndexController", "index"));
 
 
+
+
+
+//Change this is you want to point to a different controller on page not found error
+// works only when PAGENOTFOUNDREDIRECT is set to YES in definations.php
 if (PAGENOTFOUNDREDIRECT == "YES") {
     array_push($routes, array("404error", "ErrorController", "error"));
 }
-
-
-
-
-
-
-
-
-
-$run = new router($routes);

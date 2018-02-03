@@ -7,13 +7,85 @@
  * Time: 9:17 AM
  */
 
+include_once "definations.php";
+
+//Defining sessions in class
+class Session {
+    function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        foreach ($_SESSION as $skey => $svalue) {
+            $this->{$skey} = $svalue;
+        }
+    }
+
+    function setsessionkey($key, $value) {
+        $_SESSION[$key] = $value;
+        $this->{$key} = $value;
+    }
+
+    function destroysessionkey($key) {
+        unset($_SESSION[$key]);
+        unset($this->{$key});
+    }
+
+    function destroyall() {
+        foreach ($_SESSION as $skey => $svalue) {
+            unset($_SESSION[$skey]);
+            unset($this->{$skey});
+        }
+        session_destroy();
+    }
+}
+
+//Defining get, post, files and request
+class Get {
+    function __construct() {
+        foreach ($_GET as $skey => $svalue) {
+            $this->{$skey} = $svalue;
+        }
+    }
+}
+
+class Post {
+    function __construct() {
+        foreach ($_POST as $skey => $svalue) {
+            $this->{$skey} = $svalue;
+        }
+    }
+}
+
+class Request {
+    function __construct() {
+        foreach ($_REQUEST as $skey => $svalue) {
+            $this->{$skey} = $svalue;
+        }
+    }
+}
+
+class Files {
+    function __construct() {
+        foreach ($_FILES as $skey => $svalue) {
+            $this->{$skey} = $svalue;
+        }
+    }
+}
+
+
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
     private $session;
 
     function __construct() {
         $this->HtmlFileContents = "";
-        include_once "definations.php";
+
+        //Takes all the routing varibales in array, return blank if none exists
+        if (isset($_GET["path"]) && $_GET["path"] != '') {
+            $urlarray = explode('/', $_GET["path"]);
+        } else {
+            $urlarray = array();
+        }
 
         if (isset($urlarray)) {
             $this->urlarray = $urlarray;

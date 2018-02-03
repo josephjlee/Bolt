@@ -13,7 +13,7 @@ if (!isset($_GET["path"])) {
 }
 
 ob_start();
-$output = loader($run);
+$output = loader(new router($routes));
 
 if (isset($output["html"])) {
     echo $output["html"];
