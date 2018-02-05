@@ -32,7 +32,7 @@ class CoreFunctions {
         $router = new AltoRouter();
         $router->setBasePath(BASEPATH);
         foreach ($allroutes as $item) {
-            $router->map($item[0], '/' . $item[1], $item[2] . "#" . $item[3], $item[4]);
+            $router->map($item[0], $item[1], $item[2], $item[3]);
         }
         // match current request
         $match = $router->match();
