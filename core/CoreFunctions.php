@@ -21,7 +21,7 @@ class CoreFunctions {
         return str_replace(array("\n", "\r", "\t"), '', $buf);
     }
 
-    function loader($newrouter) {
+    function loader($allroutes) {
         //Defining output
         $output = array();
         $output["html"] = "";
@@ -31,7 +31,7 @@ class CoreFunctions {
         //http://altorouter.com/
         $router = new AltoRouter();
         $router->setBasePath(BASEPATH);
-        foreach ($newrouter->routes as $item) {
+        foreach ($allroutes as $item) {
             $router->map($item[0], '/' . $item[1], $item[2] . "#" . $item[3], $item[4]);
         }
         // match current request

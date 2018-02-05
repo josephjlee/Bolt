@@ -7,7 +7,6 @@
  */
 include_once "core/controller.php";
 include_once "definations.php";
-include_once "core/router.php";
 include_once "core/AltoRouter.php";
 include_once "main.php";
 $core = new CoreFunctions();
@@ -17,7 +16,7 @@ if (!isset($_GET["path"])) {
 }
 
 ob_start();
-$output = $core->loader(new router($routes));
+$output = $core->loader($routes);
 
 if (isset($output["html"])) {
     echo $output["html"];
