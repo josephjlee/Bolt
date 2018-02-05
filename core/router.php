@@ -13,7 +13,7 @@ class router {
         $this->routes = $routes;
 
         //End of all routes definitions
-        $this->checkduplicate($this->routes);
+//        $this->checkduplicate($this->routes);
     }
 
     function checkduplicate($array) {

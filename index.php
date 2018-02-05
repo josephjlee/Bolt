@@ -8,6 +8,7 @@
 include_once "core/controller.php";
 include_once "definations.php";
 include_once "core/router.php";
+include_once "core/AltoRouter.php";
 include_once "main.php";
 $core = new CoreFunctions();
 
@@ -32,7 +33,7 @@ if(HTMLCOMPRESSION == "YES") {
 }
 
 if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT == "YES" && !$output["routed"]) {
-    header('location:http:/' . ROOT . '404error');
+    header('location:http://' . ROOT . '404error');
 } else {
     if ($finaloutput == "" && null !== PAGENOTFOUNDREDIRECT && PAGENOTFOUNDREDIRECT != "YES") {
         echo "Page Error";
