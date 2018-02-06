@@ -72,10 +72,10 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $item) . "'>\n</head>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $item) . "'>\n</head>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
             }
 
         } catch (Exception $e) {
@@ -95,10 +95,10 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $item) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $item) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace($_SERVER["DOCUMENT_ROOT"], '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
             }
         } catch (Exception $e) {
             echo $e;
