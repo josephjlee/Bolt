@@ -23,7 +23,7 @@ class DemoController extends AppController { <br>
 } <br>
 3. Write html code in demo.html <br>
 4. In main.php file include the demo controller and define a demo route <br>
-include_once "app/error/error.php"; <br>
+include_once "app/demo/demo.php"; <br>
 array_push($routes, array('GET', "demo", "DemoController", "demo", "demopage")); <br>
 5. In your browser head over to http://localhost/bolt/demo
 
