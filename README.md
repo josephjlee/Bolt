@@ -28,3 +28,8 @@ array_push($routes, array('GET', "demo", "DemoController", "demo", "demopage"));
 5. In your browser head over to http://localhost/bolt/demo
 
 <b>That's it, now your are ready to build your own bolt apps</b>
+
+
+<b>Credits</b><br>
+1. <a href="https://codepen.io/blissdev/pen/BCGeL">Jordan Arentsen</a>
+2. <a href="https://github.com/dannyvankooten/AltoRouter">Danny van Kooten</a>
