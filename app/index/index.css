@@ -1,14 +1,104 @@
 * {
-    background-color: #eee;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
 }
 
-body {
-    background-color: #eee;
-}
-
 a {
     cursor: pointer;
+    color: #ffffff;
     text-decoration: none !important;
+}
+
+a:hover{
+    color: #000;
+}
+
+p {
+    color: #ffffff;
+}
+
+body {
+    background: #E75B47;
+    background-image: -webkit-linear-gradient(-89deg, rgba(255, 255, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%);
+    background-image: -moz-linear-gradient(-89deg, rgba(255, 255, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%);
+    background-image: -o-linear-gradient(-89deg, rgba(255, 255, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%);
+    background-image: linear-gradient(-89deg, rgba(255, 255, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%);
+    text-align: center;
+}
+
+.bolt {
+    fill: hsl(7, 50%, 38%);
+    filter: url(#bolt-inner-shadow);
+}
+
+.bolt.loading {
+    -webkit-animation: light-pulse 3s infinite;
+    -moz-animation: light-pulse 3s infinite;
+    animation: light-pulse 3s infinite;
+}
+
+@keyframes light-pulse {
+    1% {
+        fill: hsl(7, 50%, 38%);
+    }
+    50% {
+        fill: hsl(7, 50%, 78%);
+    }
+    100% {
+        fill: hsl(7, 50%, 38%);
+    }
+}
+
+@-webkit-keyframes light-pulse {
+    1% {
+        fill: hsl(7, 50%, 38%);
+    }
+    50% {
+        fill: hsl(7, 50%, 78%);
+    }
+    100% {
+        fill: hsl(7, 50%, 38%);
+    }
+}
+
+@-webkit-keyframes pulse {
+    1% {
+        -webkit-transform: scale(0.7);
+    }
+    25% {
+        -webkit-transform: scale(1.1);
+    }
+    45% {
+        -webkit-transform: scale(0.9);
+    }
+    63% {
+        -webkit-transform: scale(1.05);
+    }
+    79% {
+        -webkit-transform: scale(0.95);
+    }
+    100% {
+        -webkit-transform: scale(1.0);
+    }
+}
+
+@keyframes pulse {
+    1% {
+        transform: scale(0.7);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    45% {
+        transform: scale(0.9);
+    }
+    63% {
+        transform: scale(1.05);
+    }
+    79% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1.0);
+    }
 }
