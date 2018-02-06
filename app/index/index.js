@@ -1,1 +1,1 @@
-document.getElementById('home').innerHTML = "Welcome to Bolt.";
+document.getElementById('home').innerHTML = "Welcome to <a href='https://github.com/veerajongit/Bolt' target='_blank'>Bolt</a>.";

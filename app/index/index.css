@@ -1,8 +1,14 @@
-*{
+* {
     background-color: #eee;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
 }
-body{
+
+body {
     background-color: #eee;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none !important;
 }
