@@ -43,7 +43,7 @@ class CoreFunctions {
                 $className = $class;
                 //Checking if class exists
                 $this->checkclass($className);
-                $controller = new $className();
+                $controller = new $className($router);
                 $controller->{$function}();
                 //Checking if controller exists in the class
                 $this->checkfunction($className, $function);
