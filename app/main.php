@@ -15,7 +15,8 @@ include_once "error/error.php";
 
 
 //Define all your routes here
-//array_push($routes, array(route_name, controllerclass_name, controllerfunction_name));
+//Router heavily adapted from Altorouter (https://github.com/dannyvankooten/AltoRouter)
+//array_push($routes, array(REQUEST_METHOD, PATH, CONTROLLER#FUNCTION, PAGENAME));
 array_push($routes, array('GET', "/", "IndexController#index", "homepage"));
 
 
