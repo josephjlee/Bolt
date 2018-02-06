@@ -27,4 +27,4 @@ include_once "app/demo/demo.php"; <br>
 array_push($routes, array('GET', "demo", "DemoController", "demo", "demopage")); <br>
 5. In your browser head over to http://localhost/bolt/demo
 
-
+<b>That's it, now your are ready to build your own bolt apps</b>
