@@ -8,7 +8,7 @@
 include_once "core/controller.php";
 include_once "definations.php";
 include_once "core/AltoRouter.php";
-include_once "main.php";
+include_once "app/main.php";
 $core = new CoreFunctions();
 
 if (!isset($_GET["path"])) {

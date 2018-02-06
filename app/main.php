@@ -9,9 +9,9 @@
 $routes = array();
 
 /* Define all controllers here */
-include_once "app/App.php";
-include_once "app/index/index.php";
-include_once "app/error/error.php";
+include_once "App.php";
+include_once "index/index.php";
+include_once "error/error.php";
 
 
 //Define all your routes here

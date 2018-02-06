@@ -44,7 +44,7 @@ class Controller {
         $this->model = new Model();
 
         //Some common defaults
-        $this->ROOT = "http:/" . ROOT;
+        $this->ROOT = $this->httporhttps().":/" . ROOT;
         $this->APP = $this->ROOT . "app/";
         $this->ASSETS = $this->APP . "assets/";
 
@@ -72,16 +72,23 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $item) . "'>\n</head>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='". $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'>\n</head>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $filename) . "'>\n</head>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'>\n</head>", $this->HTMLFILECONTENTS);
             }
 
         } catch (Exception $e) {
             echo $e;
             exit;
         }
+    }
+
+    private function httporhttps(){
+        if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
+            return 'https';
+        }
+        return 'http';
     }
 
     function GetJSFileContents($filename) {
@@ -95,10 +102,10 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $item) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'></script>\n</body>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . str_replace(str_replace('/', '\\', $_SERVER["DOCUMENT_ROOT"]), '', dirname($rc->getFileName()) . "/" . $filename) . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'></script>\n</body>", $this->HTMLFILECONTENTS);
             }
         } catch (Exception $e) {
             echo $e;
