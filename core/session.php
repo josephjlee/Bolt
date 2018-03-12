@@ -17,12 +17,12 @@ class Session {
         }
     }
 
-    function setsessionkey($key, $value) {
+    function setsessionkey(string $key, string $value) {
         $_SESSION[$key] = $value;
         $this->{$key} = $value;
     }
 
-    function destroysessionkey($key) {
+    function destroysessionkey(string $key) {
         unset($_SESSION[$key]);
         unset($this->{$key});
     }

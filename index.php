@@ -5,10 +5,10 @@
  * Date: 18/04/17
  * Time: 8:57 AM
  */
-include_once "core/controller.php";
-include_once "definations.php";
-include_once "core/AltoRouter.php";
-include_once "app/main.php";
+require_once "core/controller.php";
+require_once "definations.php";
+require_once "core/AltoRouter.php";
+require_once "app/main.php";
 $core = new CoreFunctions();
 
 if (!isset($_GET["path"])) {

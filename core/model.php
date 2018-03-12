@@ -8,7 +8,7 @@
  */
 class Model {
     function __construct() {
-        include_once __DIR__."/../definations.php";
+        require_once __DIR__ . "/../definations.php";
         if (USEPDOMYSQL == "YES") {
             try {
                 $this->mysql = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME, USERNAME, PASSWORD);
@@ -20,10 +20,10 @@ class Model {
             }
         }
 
-        if(USEPDOSQLITE == "YES"){
-            try{
-                $this->sqlite = new PDO('sqlite:'.SQLITEDBNAME);
-            }catch(PDOException $e){
+        if (USEPDOSQLITE == "YES") {
+            try {
+                $this->sqlite = new PDO('sqlite:' . SQLITEDBNAME);
+            } catch (PDOException $e) {
                 echo $e->getMessage();
                 exit;
             }
@@ -31,16 +31,16 @@ class Model {
     }
 
     function __destruct() {
-        include_once "definations.php";
+        require_once __DIR__ . "/../definations.php";
         if (USEPDOMYSQL == "YES") {
             $this->mysql = null;
         }
-        if(USEPDOSQLITE == "YES"){
+        if (USEPDOSQLITE == "YES") {
             $this->sqlite = null;
         }
     }
 
-    function retrievemysql($sql) {
+    function retrievemysql(string $sql): array {
         $arr = array();
         try {
             $stmt = $this->mysql->prepare($sql);
@@ -63,7 +63,7 @@ class Model {
         return $arr;
     }
 
-    function runquerymysql($sql) {
+    function runquerymysql(string $sql): array {
         $arr = array();
         try {
             // use exec() because no results are returned
@@ -77,7 +77,7 @@ class Model {
         return $arr;
     }
 
-    function runquerysqlite($sql) {
+    function runquerysqlite(string $sql): array {
         $arr = array();
         try {
             // use exec() because no results are returned
@@ -90,7 +90,7 @@ class Model {
         return $arr;
     }
 
-    function retrievesqlite($sql) {
+    function retrievesqlite(string $sql): array {
         $arr = array();
         try {
             $stmt = $this->sqlite->prepare($sql);

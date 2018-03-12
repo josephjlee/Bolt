@@ -6,22 +6,22 @@
  * Time: 10:35 AM
  */
 
-include_once __DIR__ . "/session.php";
+require_once __DIR__ . "/session.php";
 //Defining get, post, files and request
-include_once __DIR__ . "/get.php";
-include_once __DIR__ . "/post.php";
-include_once __DIR__ . "/request.php";
-include_once __DIR__ . "/files.php";
+require_once __DIR__ . "/get.php";
+require_once __DIR__ . "/post.php";
+require_once __DIR__ . "/request.php";
+require_once __DIR__ . "/files.php";
 
 class CoreFunctions {
     public function __construct() {
     }
 
-    function ob_html_compress($buf) {
+    function ob_html_compress(string $buf): string {
         return str_replace(array("\n", "\r", "\t"), '', $buf);
     }
 
-    function loader($allroutes) {
+    function loader(array $allroutes): array {
         //Defining output
         $output = array();
         $output["html"] = "";
@@ -32,7 +32,12 @@ class CoreFunctions {
         $router = new AltoRouter();
         $router->setBasePath(BASEPATH);
         foreach ($allroutes as $item) {
-            $router->map($item[0], $item[1], $item[2], $item[3]);
+            try {
+                $router->map($item[0], $item[1], $item[2], $item[3]);
+            } catch (Exception $e) {
+                echo $e;
+                exit;
+            }
         }
         // match current request
         $match = $router->match();
@@ -66,7 +71,7 @@ class CoreFunctions {
         return $output;
     }
 
-    private function checkclass($classname) {
+    private function checkclass(string $classname) {
         //Checking if class exists
         if (!class_exists($classname)) {
             echo "Class " . $classname . " does not exist";
@@ -74,7 +79,7 @@ class CoreFunctions {
         }
     }
 
-    private function checkfunction($classname, $functionname) {
+    private function checkfunction(string $classname, string $functionname) {
         //Checking if controller in class exists
         if (!method_exists($classname, $functionname)) {
             echo "Controller " . $functionname . " does not exist in class " . $classname;

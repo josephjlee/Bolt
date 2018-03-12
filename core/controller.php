@@ -7,8 +7,8 @@
  * Time: 9:17 AM
  */
 
-include_once __DIR__ . "/../definations.php";
-include_once __DIR__ . "/CoreFunctions.php";
+require_once __DIR__ . "/../definations.php";
+require_once __DIR__ . "/CoreFunctions.php";
 
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
@@ -16,19 +16,6 @@ class Controller {
 
     function __construct() {
         $this->HTMLFILECONTENTS = "";
-
-        //Takes all the routing varibales in array, return blank if none exists
-        if (isset($_GET["path"]) && $_GET["path"] != '') {
-            $urlarray = explode('/', $_GET["path"]);
-        } else {
-            $urlarray = array();
-        }
-
-        if (isset($urlarray)) {
-            $this->urlarray = $urlarray;
-        } else {
-            $this->urlarray = array();
-        }
 
         //Session setup
         $this->session = new Session();
@@ -40,7 +27,7 @@ class Controller {
         $this->FILE = new Files();
 
         //Database setup
-        include_once __DIR__ . "/model.php";
+        require_once __DIR__ . "/model.php";
         $this->model = new Model();
 
         //Some common defaults
@@ -50,7 +37,7 @@ class Controller {
 
     }
 
-    function GetHtmlFileContents($filename) {
+    function GetHtmlFileContents(string $filename) {
         //Sets HTML code to the string.
         try {
             $rc = new ReflectionClass(get_class($this));
@@ -59,6 +46,7 @@ class Controller {
             echo $e;
             exit;
         }
+        return;
     }
 
     function GetCSSFileContents($filename) {
@@ -84,7 +72,7 @@ class Controller {
         }
     }
 
-    private function httporhttps(){
+    private function httporhttps() : string {
         if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
             return 'https';
         }
@@ -113,7 +101,7 @@ class Controller {
         }
     }
 
-    function UploadPicture($target_dir, $filename, $minfilesize = 5000000, $renamefile = "no") {
+    function UploadPicture(string $target_dir, string $filename, int $minfilesize = 5000000, string $renamefile = "no") : array {
         //Uploading picture the $filename is the name of the input tag, $target_dir is the directory where the upload is to be done,
         //$target_dir directory should be inside app directory
         //@return array of err (null if upload success) and filename as the complete path to the uploaded file

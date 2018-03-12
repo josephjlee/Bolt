@@ -6,6 +6,8 @@
  * Time: 12:07 PM
  */
 
+declare(strict_types=1);
+
 //Localhost Array
 $whitelist = array(
     '127.0.0.1',
