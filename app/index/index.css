@@ -102,3 +102,8 @@ body {
         transform: scale(1.0);
     }
 }
+
+
+svg{
+    margin-top: 20vh;
+}
