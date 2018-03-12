@@ -51,9 +51,10 @@ class Model {
             $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
             if ($result) {
-                $a[] = $stmt->fetchAll();
+                $a = $stmt->fetchAll();
             }
             $arr["result"] = "success";
+            $arr["datalenght"] = count($a);
             $arr["data"] = $a;
         } catch (PDOException $e) {
             $arr["result"] = "failed";
@@ -100,9 +101,10 @@ class Model {
             $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
             if ($result) {
-                $a[] = $stmt->fetchAll();
+                $a = $stmt->fetchAll();
             }
             $arr["result"] = "success";
+            $arr["datalenght"] = count($a);
             $arr["data"] = $a;
         } catch (PDOException $e) {
             $arr["result"] = "failed";

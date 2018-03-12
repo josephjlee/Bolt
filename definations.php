@@ -32,8 +32,8 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 //SET Root location of project
 if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     //WHEN RUNNING ON LOCALHOST
-    define('BASEPATH', '/bolt');
-    define("ROOT", "/localhost/bolt/");
+    define('BASEPATH', '');
+    define("ROOT", "/localhost/");
 } else {
     //WHEN RUNNING ON SERVER
     define('BASEPATH', '/');
