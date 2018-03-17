@@ -12,7 +12,11 @@ require_once __DIR__ . "/CoreFunctions.php";
 
 //header('location:http:/'.ROOT.'pagename'); <- Use this incase session not present on to redirect to a particular page
 class Controller {
-    private $session;
+    protected $session;
+    protected $model;
+    protected $GET;
+    protected $POST;
+    protected $REQUEST;
 
     function __construct() {
         $this->HTMLFILECONTENTS = "";
@@ -31,7 +35,7 @@ class Controller {
         $this->model = new Model();
 
         //Some common defaults
-        $this->ROOT = $this->httporhttps().":/" . ROOT;
+        $this->ROOT = $this->httporhttps() . ":/" . ROOT;
         $this->APP = $this->ROOT . "app/";
         $this->ASSETS = $this->APP . "assets/";
 
@@ -60,10 +64,10 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='". $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'>\n</head>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'>\n</head>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'>\n</head>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</head>", "<link rel='stylesheet' type='text/css' href='" . $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'>\n</head>", $this->HTMLFILECONTENTS);
             }
 
         } catch (Exception $e) {
@@ -72,7 +76,7 @@ class Controller {
         }
     }
 
-    private function httporhttps() : string {
+    private function httporhttps(): string {
         if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
             return 'https';
         }
@@ -90,10 +94,10 @@ class Controller {
             $rc = new ReflectionClass(get_class($this));
             if (is_array($filename)) {
                 foreach ($filename as $item) {
-                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                    $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $item . "'></script>\n</body>", $this->HTMLFILECONTENTS);
                 }
             } else {
-                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='".$this->httporhttps().":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'></script>\n</body>", $this->HTMLFILECONTENTS);
+                $this->HTMLFILECONTENTS = str_replace("</body>", "<script src='" . $this->httporhttps() . ":/" . ROOT . 'app' . dirname(explode('app', $rc->getFileName())[1]) . '/' . $filename . "'></script>\n</body>", $this->HTMLFILECONTENTS);
             }
         } catch (Exception $e) {
             echo $e;
@@ -101,7 +105,7 @@ class Controller {
         }
     }
 
-    function UploadPicture(string $target_dir, string $filename, int $minfilesize = 5000000, string $renamefile = "no") : array {
+    function UploadPicture(string $target_dir, string $filename, int $minfilesize = 5000000, string $renamefile = "no"): array {
         //Uploading picture the $filename is the name of the input tag, $target_dir is the directory where the upload is to be done,
         //$target_dir directory should be inside app directory
         //@return array of err (null if upload success) and filename as the complete path to the uploaded file

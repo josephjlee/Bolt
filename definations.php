@@ -21,6 +21,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     define("PASSWORD", "localpassword");
     define("DBNAME", "localserverdb");
     define("SQLITEDBNAME", "localsqlitedb.sqlite");
+    define("PROD", FALSE);
 } else {
     //WHEN RUNNING ON SERVER
     define("SERVERNAME", "localhost");
@@ -28,6 +29,7 @@ if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
     define("PASSWORD", "productionpassword");
     define("DBNAME", "productionserverdb");
     define("SQLITEDBNAME", "productionserversqlitedb.sqlite");
+    define("PROD", TRUE);
 }
 
 

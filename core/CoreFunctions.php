@@ -49,9 +49,18 @@ class CoreFunctions {
                 //Checking if class exists
                 $this->checkclass($className);
                 $controller = new $className($router);
-                $controller->{$function}();
+                if (!PROD) {
+                    ob_start();
+                    $controller->{$function}();
+                    echo "<div>".ob_get_clean()."</div>";
+                } else {
+                    ob_start();
+                    $controller->{$function}();
+                    ob_get_clean();
+                }
                 //Checking if controller exists in the class
                 $this->checkfunction($className, $function);
+
                 $output["html"] = $controller->HTMLFILECONTENTS;
                 $controllerarray = get_object_vars($controller);
 
